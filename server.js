@@ -4,6 +4,7 @@ const path = require("path");
 const data = require("./db/db")
 
 const app = express();
+
 var PORT = process.env.PORT || 3001;
 
 app.use(express.static('public'));
@@ -33,9 +34,11 @@ app.post("/api/notes", (req, res) => {
     let newNote = req.body;
     let noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8")); 
     let noteIdentifier = (noteData.length).toString();
+    
 
     //create new property called id based on length and assign it to each json object
     newNote.id = noteIdentifier;
+    console.log(`The new note id is ${noteIdentifier}`);
 
 
     //push updated note to the data containing notes history in db.json
@@ -53,8 +56,9 @@ app.post("/api/notes", (req, res) => {
 
 app.delete("/api/notes/:id", (req, res) => {
     let noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
-    console.log("deleting note");
+    
     let noteId = req.params.id;
+    console.log(`deleting note with ID ${noteId}`);
     
 
 
