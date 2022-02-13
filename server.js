@@ -36,8 +36,9 @@ app.post("/api/notes", (req, res) => {
     let noteIdentifier = (noteData.length).toString();
     
 
-    //create new property called id based on length and assign it to each json object
+//   Creates a new id property for each note 
     newNote.id = noteIdentifier;
+
     console.log(`The new note id is ${noteIdentifier}`);
 
 
@@ -61,7 +62,7 @@ app.delete("/api/notes/:id", (req, res) => {
     console.log(`deleting note with ID ${noteId}`);
     
 
-
+    // adds a new note to the note array in db.json IF a note with the current ID isn't already there
     noteData = noteData.filter(currentNote =>{
         return currentNote.id != noteId;
     })
