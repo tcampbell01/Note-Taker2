@@ -2,6 +2,8 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const data = require("./db/db")
+const {v4: uuidv4} = require('uuid');
+
 
 const app = express();
 
@@ -29,17 +31,18 @@ app.get('*', (req,res) => {
 });
 
 
-// 
+// posts a new note and assigns a generated id through uuid 
 app.post("/api/notes", (req, res) => {
     let newNote = req.body;
     let noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8")); 
-    let noteIdentifier = (noteData.length).toString();
+   
+   const userId = uuidv4();
     
 
 //   Creates a new id property for each note 
-    newNote.id = noteIdentifier;
+     newNote.id = userId;
 
-    console.log(`The new note id is ${noteIdentifier}`);
+     console.log(`The new note id is ${userId}`);
 
 
     //push updated note to the data containing notes history in db.json
@@ -54,7 +57,7 @@ app.post("/api/notes", (req, res) => {
 });
 
 
-
+// deletes the notes and logs which note ID is being deleted
 app.delete("/api/notes/:id", (req, res) => {
     let noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
     
